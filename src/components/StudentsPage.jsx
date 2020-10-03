@@ -150,14 +150,14 @@ export default function StudentsPage(props) {
                       ))
                     ) : (
                       <tr>
-                        <td className="text-center" colSpan="4">
+                        <td className="text-center" colSpan="5">
                           No students available.
                         </td>
                       </tr>
                     )
                   ) : (
                     <tr>
-                      <td className="text-center" colSpan="4">
+                      <td className="text-center" colSpan="5">
                         Loading...
                       </td>
                     </tr>
