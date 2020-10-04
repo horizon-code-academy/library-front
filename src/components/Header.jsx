@@ -5,9 +5,7 @@ const Header = (props) => (
   <>
     <Navbar bg="light">
       <Navbar.Brand href="/">
-        <span role="img" aria-label="book">
-          📕
-        </span>
+        {"📕 "}
         Library app
       </Navbar.Brand>
       <Nav className="mr-auto">
