@@ -1,18 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { Row, Col, Card, Table, ButtonGroup, Button } from "react-bootstrap";
 import {
-  Row,
-  Col,
-  Card,
-  Table,
-  ButtonGroup,
-  Button,
-  Modal,
-  Form,
-  Alert,
-} from "react-bootstrap";
-import { getAllBooks } from "../redux/actions/books";
+  getAllBooks,
+  addBook,
+  updateBook,
+  deleteBook,
+} from "../redux/actions/books";
+import AddBookModal from "./modals/AddBookModal";
+import UpdateBookModal from "./modals/UpdateBookModal";
+import DeleteBookModal from "./modals/DeleteBookModal";
 
 export default function BooksPage(props) {
   const dispatch = useDispatch();
@@ -34,32 +31,37 @@ export default function BooksPage(props) {
     dispatch(getAllBooks());
   }, [dispatch]);
 
-  const submitBook = async (book) => {
-    await axios
-      .post("http://localhost:8081/books", book)
-      .then(() => {
-        setShow(false);
-      })
-      .catch((e) => {
-        setError(e.message);
-      });
-  };
+  async function submitAddBook(book) {
+    const success = () => {
+      setShow(false);
+      dispatch(getAllBooks());
+    };
+    const fail = (e) => setError(e.message);
+    dispatch(addBook(book, success, fail));
+  }
 
-  const updateBook = async () => {
-    await axios
-      .put("http://localhost:8081/books/" + activeBook._id, activeBook)
-      .then(() => {
-        setShowUpdate(false);
-      })
-      .catch((e) => {
-        setUpdateError(e.message);
-      });
-  };
+  async function submitUpdateBook() {
+    const success = () => {
+      setShowUpdate(false);
+      dispatch(getAllBooks());
+    };
+    const fail = (e) => setUpdateError(e.message);
+    dispatch(updateBook(activeBook, success, fail));
+  }
+
+  async function submitDeleteBook() {
+    const success = () => {
+      setShowDelete(false);
+      dispatch(getAllBooks());
+    };
+    const fail = (e) => setDeleteError(e.message);
+    dispatch(deleteBook(activeBook._id, success, fail));
+  }
 
   const handleClose = () => {
     setSubmitted(true);
     if (title && author && pages) {
-      submitBook({ title, author, pages });
+      submitAddBook({ title, author, pages });
     }
   };
   const handleShow = () => setShow(true);
@@ -67,20 +69,13 @@ export default function BooksPage(props) {
   const handleUpdateClose = () => {
     setSubmitted(true);
     if (activeBook.title && activeBook.author && activeBook.pages) {
-      updateBook();
+      submitUpdateBook();
     }
   };
   const handleUpdateShow = () => setShowUpdate(true);
 
-  const handleDeleteClose = async () => {
-    await axios
-      .delete("http://localhost:8081/books/" + activeBook._id)
-      .then(() => {
-        setShowDelete(false);
-      })
-      .catch((e) => {
-        setDeleteError(e.message);
-      });
+  const handleDeleteClose = () => {
+    submitDeleteBook();
   };
   const handleDeleteShow = () => setShowDelete(true);
 
@@ -157,161 +152,34 @@ export default function BooksPage(props) {
           </Card>
         </Col>
       </Row>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton className="bg-success text-light">
-          <Modal.Title>Add book</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={(e) => e.preventDefault()}>
-            <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                onChange={(e) => setTitle(e.target.value)}
-                type="text"
-                placeholder="Enter book title"
-              />
-              {submitted && !title ? (
-                <Form.Text className="text-danger">
-                  Plese enter a title for the book!
-                </Form.Text>
-              ) : null}
-            </Form.Group>
-            <Form.Group controlId="author">
-              <Form.Label>Author</Form.Label>
-              <Form.Control
-                onChange={(e) => setAuthor(e.target.value)}
-                type="text"
-                placeholder="Enter author name"
-              />
-              {submitted && !author ? (
-                <Form.Text className="text-danger">
-                  Plese enter the fullname of the author!
-                </Form.Text>
-              ) : null}
-            </Form.Group>
-            <Form.Group controlId="pages">
-              <Form.Label>Pages number</Form.Label>
-              <Form.Control
-                onChange={(e) => setPages(e.target.value)}
-                type="number"
-                placeholder="Enter number of pages"
-              />
-              {submitted && !pages ? (
-                <Form.Text className="text-danger">
-                  Plese enter number of pages!
-                </Form.Text>
-              ) : null}
-            </Form.Group>
-          </Form>
-          {error ? (
-            <Alert variant="danger">
-              Submit data of book failed because of {error}
-            </Alert>
-          ) : null}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="success" onClick={handleClose}>
-            Validate
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AddBookModal
+        handleClose={handleClose}
+        show={show}
+        setShow={setShow}
+        error={error}
+        setError={setError}
+        setTitle={setTitle}
+        setAuthor={setAuthor}
+        setPages={setPages}
+      />
       {activeBook && (
         <>
-          <Modal show={showUpdate} onHide={handleUpdateClose}>
-            <Modal.Header closeButton className="bg-warning">
-              <Modal.Title>Update book</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form onSubmit={(e) => e.preventDefault()}>
-                <Form.Group controlId="title">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    value={activeBook.title}
-                    onChange={(e) =>
-                      setActiveBook({ ...activeBook, title: e.target.value })
-                    }
-                    type="text"
-                    placeholder="Enter book title"
-                  />
-                  {submitted && !activeBook.title ? (
-                    <Form.Text className="text-danger">
-                      Plese enter a title for the book!
-                    </Form.Text>
-                  ) : null}
-                </Form.Group>
-                <Form.Group controlId="author">
-                  <Form.Label>Author</Form.Label>
-                  <Form.Control
-                    value={activeBook.author}
-                    onChange={(e) =>
-                      setActiveBook({ ...activeBook, author: e.target.value })
-                    }
-                    type="text"
-                    placeholder="Enter author name"
-                  />
-                  {submitted && !activeBook.author ? (
-                    <Form.Text className="text-danger">
-                      Plese enter the fullname of the author!
-                    </Form.Text>
-                  ) : null}
-                </Form.Group>
-                <Form.Group controlId="pages">
-                  <Form.Label>Pages number</Form.Label>
-                  <Form.Control
-                    value={activeBook.pages}
-                    onChange={(e) =>
-                      setActiveBook({ ...activeBook, pages: e.target.value })
-                    }
-                    type="number"
-                    placeholder="Enter number of pages"
-                  />
-                  {submitted && !activeBook.pages ? (
-                    <Form.Text className="text-danger">
-                      Plese enter number of pages!
-                    </Form.Text>
-                  ) : null}
-                </Form.Group>
-              </Form>
-              {errorUpdate ? (
-                <Alert variant="danger">
-                  Update data of book failed because of {errorUpdate}
-                </Alert>
-              ) : null}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleUpdateClose}>
-                Close
-              </Button>
-              <Button variant="warning" onClick={handleUpdateClose}>
-                Update
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          <Modal show={showDelete} onHide={handleDeleteClose}>
-            <Modal.Header closeButton className="bg-danger text-light">
-              <Modal.Title>Delete book</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Do you really want to delete "{activeBook ? activeBook.title : ""}
-              "?
-              {errorDelete ? (
-                <Alert variant="danger">
-                  Delete book failed because of {errorDelete}
-                </Alert>
-              ) : null}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleDeleteClose}>
-                Cancel
-              </Button>
-              <Button variant="danger" onClick={handleDeleteClose}>
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <UpdateBookModal
+            handleUpdateClose={handleUpdateClose}
+            showUpdate={showUpdate}
+            errorUpdate={errorUpdate}
+            setUpdateError={setUpdateError}
+            activeBook={activeBook}
+            setActiveBook={setActiveBook}
+            submitted={submitted}
+          />
+          <DeleteBookModal
+            handleDeleteClose={handleDeleteClose}
+            showDelete={showDelete}
+            errorDelete={errorDelete}
+            activeBook={activeBook}
+            setActiveBook={setActiveBook}
+          />
         </>
       )}
     </>

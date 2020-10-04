@@ -6,11 +6,17 @@ export default function booksReducer(state = [], action) {
       return state;
     case "GET_ONE_BOOK":
       return state;
-    case "CREATE_BOOK":
+    case "ADD_BOOK_SUCCESS":
       return state;
-    case "UPDATE_BOOK":
+    case "ADD_BOOK_ERROR":
       return state;
-    case "DELETE_BOOK":
+    case "UPDATE_BOOK_SUCCESS":
+      return state;
+    case "UPDATE_BOOK_ERROR":
+      return state;
+    case "DELETE_BOOK_SUCCESS":
+      return state;
+    case "DELETE_BOOK_ERROR":
       return state;
     default:
       return state;
