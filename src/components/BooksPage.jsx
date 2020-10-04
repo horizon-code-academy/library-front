@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
   Row,
@@ -11,9 +12,12 @@ import {
   Form,
   Alert,
 } from "react-bootstrap";
+import { getAllBooks } from "../redux/actions/books";
 
 export default function BooksPage(props) {
-  const [books, setBooks] = React.useState(null);
+  const dispatch = useDispatch();
+  const books = useSelector((state) => state.books);
+
   const [activeBook, setActiveBook] = React.useState(null);
   const [show, setShow] = React.useState(false);
   const [showDelete, setShowDelete] = React.useState(false);
@@ -27,18 +31,8 @@ export default function BooksPage(props) {
   const [pages, setPages] = React.useState("");
 
   React.useEffect(() => {
-    const getBooks = async () => {
-      await axios
-        .get("http://localhost:8081/books")
-        .then((res) => {
-          setBooks(res.data);
-        })
-        .catch((e) => {
-          setError(e.message);
-        });
-    };
-    getBooks();
-  }, []);
+    dispatch(getAllBooks());
+  }, [dispatch]);
 
   const submitBook = async (book) => {
     await axios
