@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import {
   Row,
@@ -11,9 +12,12 @@ import {
   Form,
   Alert,
 } from "react-bootstrap";
+import { getAllStudents } from "../redux/actions/students";
 
 export default function StudentsPage(props) {
-  const [students, setStudents] = React.useState(null);
+  const dispatch = useDispatch();
+  const students = useSelector((state) => state.students);
+
   const [activeStudent, setActiveStudent] = React.useState(null);
   const [show, setShow] = React.useState(false);
   const [showDelete, setShowDelete] = React.useState(false);
@@ -28,18 +32,8 @@ export default function StudentsPage(props) {
   const [email, setEmail] = React.useState("");
 
   React.useEffect(() => {
-    const getStudents = async () => {
-      await axios
-        .get("http://localhost:8081/students")
-        .then((res) => {
-          setStudents(res.data);
-        })
-        .catch((e) => {
-          setError(e.message);
-        });
-    };
-    getStudents();
-  }, []);
+    dispatch(getAllStudents());
+  }, [dispatch]);
 
   const submitStudent = async (student) => {
     await axios
