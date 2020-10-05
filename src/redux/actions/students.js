@@ -6,7 +6,7 @@ export function getAllStudents() {
     payload: data,
   });
   const error = (data) => ({
-    type: "GET_ALL_Students_ERROR",
+    type: "GET_ALL_STUDENTS_ERROR",
   });
   return (dispatch) =>
     axios
@@ -16,5 +16,65 @@ export function getAllStudents() {
       })
       .catch((e) => {
         dispatch(error(e.message));
+      });
+}
+
+export function addStudent(student, successCb, failCb) {
+  const success = () => ({
+    type: "ADD_STUDENT_SUCCESS",
+  });
+  const error = () => ({
+    type: "ADD_STUDENT_ERROR",
+  });
+  return (dispatch) =>
+    axios
+      .post("http://localhost:8081/students", student)
+      .then(() => {
+        dispatch(success());
+        successCb();
+      })
+      .catch((e) => {
+        dispatch(error(e.message));
+        failCb();
+      });
+}
+
+export function updateStudent(student, successCb, failCb) {
+  const success = () => ({
+    type: "UPDATE_STUDENT_SUCCESS",
+  });
+  const error = () => ({
+    type: "UPDATE_STUDENT_ERROR",
+  });
+  return (dispatch) =>
+    axios
+      .put("http://localhost:8081/students/" + student._id, student)
+      .then(() => {
+        dispatch(success());
+        successCb();
+      })
+      .catch((e) => {
+        dispatch(error());
+        failCb();
+      });
+}
+
+export function deleteStudent(id, successCb, failCb) {
+  const success = () => ({
+    type: "DELETE_STUDENT_SUCCESS",
+  });
+  const error = () => ({
+    type: "DELETE_STUDENT_ERROR",
+  });
+  return (dispatch) =>
+    axios
+      .delete("http://localhost:8081/students/" + id)
+      .then(() => {
+        dispatch(success());
+        successCb();
+      })
+      .catch((e) => {
+        dispatch(error());
+        failCb();
       });
 }

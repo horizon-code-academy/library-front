@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 export default function HomePage() {
   return (
     <Row>
@@ -8,16 +8,20 @@ export default function HomePage() {
         <h1>Library</h1>
       </Col>
       <Col md={6}>
-        <Card bg="success">
-          <Card.Img variant="top" src="/img/students.jpeg"></Card.Img>
-          <Card.Body>Students</Card.Body>
-        </Card>
+        <Link to="/StudentsPage">
+          <Card bg="success">
+            <Card.Img variant="top" src="/img/students.jpeg"></Card.Img>
+            <Card.Body>Students</Card.Body>
+          </Card>
+        </Link>
       </Col>
       <Col md={6}>
-        <Card bg="info">
-          <Card.Img variant="top" src="/img/books.jpeg"></Card.Img>
-          <Card.Body>Books</Card.Body>
-        </Card>
+        <Link to="/BooksPage">
+          <Card bg="info">
+            <Card.Img variant="top" src="/img/books.jpeg"></Card.Img>
+            <Card.Body>Books</Card.Body>
+          </Card>
+        </Link>
       </Col>
     </Row>
   );
