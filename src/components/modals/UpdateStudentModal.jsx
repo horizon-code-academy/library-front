@@ -1,75 +1,75 @@
 import React from "react";
 import { Button, Modal, Form, Alert } from "react-bootstrap";
 
-export default function UpdateBookModal(props) {
+export default function UpdateStudentModal(props) {
   return (
     <Modal show={props.showUpdate} onHide={props.handleUpdateClose}>
       <Modal.Header closeButton className="bg-warning">
-        <Modal.Title>Update book</Modal.Title>
+        <Modal.Title>Update student</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={(e) => e.preventDefault()}>
-          <Form.Group controlId="title">
-            <Form.Label>Title</Form.Label>
+          <Form.Group controlId="name">
+            <Form.Label>Fullname</Form.Label>
             <Form.Control
-              value={props.activeBook.title}
+              value={props.activeStudent.name}
               onChange={(e) =>
-                props.setActiveBook({
-                  ...props.activeBook,
-                  title: e.target.value,
+                props.setActiveStudent({
+                  ...props.activeStudent,
+                  name: e.target.value,
                 })
               }
               type="text"
-              placeholder="Enter book title"
+              placeholder="Enter student name"
             />
-            {props.submitted && !props.activeBook.title ? (
+            {props.submitted && !props.activeStudent.name ? (
               <Form.Text className="text-danger">
-                Plese enter a title for the book!
+                Plese enter a name for the student!
               </Form.Text>
             ) : null}
           </Form.Group>
-          <Form.Group controlId="author">
-            <Form.Label>Author</Form.Label>
+          <Form.Group controlId="age">
+            <Form.Label>Age</Form.Label>
             <Form.Control
-              value={props.activeBook.author}
+              value={props.activeStudent.age}
               onChange={(e) =>
-                props.setActiveBook({
-                  ...props.activeBook,
-                  author: e.target.value,
+                props.setActiveStudent({
+                  ...props.activeStudent,
+                  age: e.target.value,
                 })
               }
               type="text"
-              placeholder="Enter author name"
+              placeholder="Enter age name"
             />
-            {props.submitted && !props.activeBook.author ? (
+            {props.submitted && !props.activeStudent.age ? (
               <Form.Text className="text-danger">
-                Plese enter the fullname of the author!
+                Plese enter the fullname of the age!
               </Form.Text>
             ) : null}
           </Form.Group>
-          <Form.Group controlId="pages">
-            <Form.Label>Pages number</Form.Label>
+          <Form.Group controlId="phone">
+            <Form.Label>Phone number</Form.Label>
             <Form.Control
-              value={props.activeBook.pages}
+              value={props.activeStudent.phone}
               onChange={(e) =>
-                props.setActiveBook({
-                  ...props.activeBook,
-                  pages: e.target.value,
+                props.setActiveStudent({
+                  ...props.activeStudent,
+                  phone: e.target.value,
                 })
               }
               type="number"
-              placeholder="Enter number of pages"
+              placeholder="Enter number of phone"
             />
-            {props.submitted && !props.activeBook.pages ? (
+            {props.submitted && !props.activeStudent.phone ? (
               <Form.Text className="text-danger">
-                Please enter number of pages!
+                Please enter number of phone!
               </Form.Text>
             ) : null}
           </Form.Group>
         </Form>
         {props.errorUpdate ? (
           <Alert variant="danger">
-            Update data of book failed because of {props.errorUpdate}
+            Update data of student failed because of {props.errorUpdate}
           </Alert>
         ) : null}
       </Modal.Body>

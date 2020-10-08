@@ -1,18 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import {
-  Row,
-  Col,
-  Card,
-  Table,
-  ButtonGroup,
-  Button,
-  Modal,
-  Form,
-  Alert,
-} from "react-bootstrap";
+import { Row, Col, Card, Table, ButtonGroup, Button } from "react-bootstrap";
 import { getAllStudents } from "../redux/actions/students";
+import AddStudentModal from "./modals/AddStudentModal";
+import UpdateStudentModal from "./modals/UpdateStudentModal";
+import DeleteStudentModal from "./modals/DeleteStudentModal";
 
 export default function StudentsPage(props) {
   const dispatch = useDispatch();
@@ -40,6 +33,7 @@ export default function StudentsPage(props) {
       .post("http://localhost:8081/students", student)
       .then(() => {
         setShow(false);
+        dispatch(getAllStudents());
       })
       .catch((e) => {
         setError(e.message);
@@ -51,6 +45,7 @@ export default function StudentsPage(props) {
       .put("http://localhost:8081/students/" + activeStudent._id, activeStudent)
       .then(() => {
         setShowUpdate(false);
+        dispatch(getAllStudents());
       })
       .catch((e) => {
         setUpdateError(e.message);
@@ -80,6 +75,7 @@ export default function StudentsPage(props) {
       .delete("http://localhost:8081/students/" + activeStudent._id)
       .then(() => {
         setShowDelete(false);
+        dispatch(getAllStudents());
       })
       .catch((e) => {
         setDeleteError(e.message);
@@ -162,184 +158,35 @@ export default function StudentsPage(props) {
           </Card>
         </Col>
       </Row>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton className="bg-success text-light">
-          <Modal.Title>Add student</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={(e) => e.preventDefault()}>
-            <Form.Group controlId="name">
-              <Form.Label>Fullname</Form.Label>
-              <Form.Control
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-                placeholder="Enter student name"
-              />
-              {submitted && !name ? (
-                <Form.Text className="text-danger">
-                  Plese enter a fullname for the student!
-                </Form.Text>
-              ) : null}
-            </Form.Group>
-            <Form.Group controlId="age">
-              <Form.Label>Age</Form.Label>
-              <Form.Control
-                onChange={(e) => setAge(e.target.value)}
-                type="number"
-                placeholder="Enter the age of student"
-              />
-              {submitted && !age ? (
-                <Form.Text className="text-danger">
-                  Plese enter the age of the student!
-                </Form.Text>
-              ) : null}
-            </Form.Group>
-            <Form.Group controlId="phone">
-              <Form.Label>Phone number</Form.Label>
-              <Form.Control
-                onChange={(e) => setPhone(e.target.value)}
-                type="tel"
-                placeholder="Enter phone number"
-              />
-              {submitted && !phone ? (
-                <Form.Text className="text-danger">
-                  Please enter a phone number!
-                </Form.Text>
-              ) : null}
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                placeholder="Enter email address"
-              />
-              {submitted && !email ? (
-                <Form.Text className="text-danger">
-                  Please enter an email address!
-                </Form.Text>
-              ) : null}
-            </Form.Group>
-          </Form>
-          {error ? (
-            <Alert variant="danger">
-              Submit data of student failed because of {error}
-            </Alert>
-          ) : null}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="success" onClick={handleClose}>
-            Validate
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AddStudentModal
+        handleClose={handleClose}
+        show={show}
+        setShow={setShow}
+        error={error}
+        setError={setError}
+        setName={setName}
+        setPhone={setPhone}
+        setAge={setAge}
+        setEmail={setEmail}
+      />
       {activeStudent && (
         <>
-          <Modal show={showUpdate} onHide={handleUpdateClose}>
-            <Modal.Header closeButton className="bg-warning">
-              <Modal.Title>Update student</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form onSubmit={(e) => e.preventDefault()}>
-                <Form.Group controlId="name">
-                  <Form.Label>Fullname</Form.Label>
-                  <Form.Control
-                    value={activeStudent.name}
-                    onChange={(e) =>
-                      setActiveStudent({
-                        ...activeStudent,
-                        name: e.target.value,
-                      })
-                    }
-                    type="text"
-                    placeholder="Enter student name"
-                  />
-                  {submitted && !activeStudent.name ? (
-                    <Form.Text className="text-danger">
-                      Plese enter a name for the student!
-                    </Form.Text>
-                  ) : null}
-                </Form.Group>
-                <Form.Group controlId="age">
-                  <Form.Label>Age</Form.Label>
-                  <Form.Control
-                    value={activeStudent.age}
-                    onChange={(e) =>
-                      setActiveStudent({
-                        ...activeStudent,
-                        age: e.target.value,
-                      })
-                    }
-                    type="text"
-                    placeholder="Enter age name"
-                  />
-                  {submitted && !activeStudent.age ? (
-                    <Form.Text className="text-danger">
-                      Plese enter the fullname of the age!
-                    </Form.Text>
-                  ) : null}
-                </Form.Group>
-                <Form.Group controlId="phone">
-                  <Form.Label>Phone number</Form.Label>
-                  <Form.Control
-                    value={activeStudent.phone}
-                    onChange={(e) =>
-                      setActiveStudent({
-                        ...activeStudent,
-                        phone: e.target.value,
-                      })
-                    }
-                    type="number"
-                    placeholder="Enter number of phone"
-                  />
-                  {submitted && !activeStudent.phone ? (
-                    <Form.Text className="text-danger">
-                      Plese enter number of phone!
-                    </Form.Text>
-                  ) : null}
-                </Form.Group>
-              </Form>
-              {errorUpdate ? (
-                <Alert variant="danger">
-                  Update data of student failed because of {errorUpdate}
-                </Alert>
-              ) : null}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleUpdateClose}>
-                Close
-              </Button>
-              <Button variant="warning" onClick={handleUpdateClose}>
-                Update
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          <Modal show={showDelete} onHide={handleDeleteClose}>
-            <Modal.Header closeButton className="bg-danger text-light">
-              <Modal.Title>Delete student</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              Do you really want to delete "
-              {activeStudent ? activeStudent.name : ""}
-              "?
-              {errorDelete ? (
-                <Alert variant="danger">
-                  Delete student failed because of {errorDelete}
-                </Alert>
-              ) : null}
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleDeleteClose}>
-                Cancel
-              </Button>
-              <Button variant="danger" onClick={handleDeleteClose}>
-                Delete
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <UpdateStudentModal
+            handleUpdateClose={handleUpdateClose}
+            showUpdate={showUpdate}
+            errorUpdate={errorUpdate}
+            setUpdateError={setUpdateError}
+            activeStudent={activeStudent}
+            setActiveStudent={setActiveStudent}
+            submitted={submitted}
+          />
+          <DeleteStudentModal
+            handleDeleteClose={handleDeleteClose}
+            showDelete={showDelete}
+            errorDelete={errorDelete}
+            activeStudent={activeStudent}
+            setActiveStudent={setActiveStudent}
+          />
         </>
       )}
     </>

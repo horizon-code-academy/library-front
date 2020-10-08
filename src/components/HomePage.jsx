@@ -14,10 +14,12 @@ export default function HomePage() {
         </Card>
       </Col>
       <Col md={6}>
-        <Card bg="info">
-          <Card.Img variant="top" src="/img/books.jpeg"></Card.Img>
-          <Card.Body>Books</Card.Body>
-        </Card>
+        <a href="./BooksPage">
+          <Card bg="info">
+            <Card.Img variant="top" src="/img/books.jpeg"></Card.Img>
+            <Card.Body>Books</Card.Body>
+          </Card>
+        </a>
       </Col>
     </Row>
   );
