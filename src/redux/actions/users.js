@@ -1,5 +1,26 @@
 import axios from "axios";
 
+export function login(user, successCb, failCb) {
+  const success = (data) => ({
+    type: "LOGIN_SUCCESS",
+    payload: data,
+  });
+  const error = (data) => ({
+    type: "LOGIN_ERROR",
+  });
+  return (dispatch) =>
+    axios
+      .post("http://localhost:8081/login", user)
+      .then((res) => {
+        dispatch(success(res.data));
+        successCb();
+      })
+      .catch((e) => {
+        dispatch(error(e.message));
+        failCb(e.message);
+      });
+}
+
 export function getAllUsers() {
   const success = (data) => ({
     type: "GET_ALL_USERS_SUCCESS",
