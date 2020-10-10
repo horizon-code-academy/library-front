@@ -38,7 +38,7 @@ export default function UpdateStudentModal(props) {
                   age: e.target.value,
                 })
               }
-              type="text"
+              type="number"
               placeholder="Enter age name"
             />
             {props.submitted && !props.activeStudent.age ? (
@@ -57,8 +57,8 @@ export default function UpdateStudentModal(props) {
                   email: e.target.value,
                 })
               }
-              type="number"
-              placeholder="Enter number of phone"
+              type="email"
+              placeholder=" enter an email address"
             />
             {props.submitted && !props.activeStudent.email ? (
               <Form.Text className="text-danger">
@@ -76,7 +76,7 @@ export default function UpdateStudentModal(props) {
                   phone: e.target.value,
                 })
               }
-              type="number"
+              type="tel"
               placeholder="Enter number of phone"
             />
             {props.submitted && !props.activeStudent.phone ? (

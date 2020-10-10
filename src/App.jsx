@@ -36,8 +36,6 @@ function App() {
                 <SignupPage />
               </Route>
               <Route path="/" exact component={HomePage} />
-              <Route path="/BooksPage" exact component={BooksPage} />
-              <Route path="/StudentsPage" exact component={StudentsPage} />
             </Switch>
           </div>
         </Container>

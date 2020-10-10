@@ -8,7 +8,7 @@ export default function HomePage() {
         <h1>Library</h1>
       </Col>
       <Col md={6}>
-        <Link to="/StudentsPage">
+        <Link to="/students">
           <Card bg="success">
             <Card.Img variant="top" src="/img/students.jpeg"></Card.Img>
             <Card.Body>Students</Card.Body>
@@ -16,7 +16,7 @@ export default function HomePage() {
         </Link>
       </Col>
       <Col md={6}>
-        <Link to="/BooksPage">
+        <Link to="/books">
           <Card bg="info">
             <Card.Img variant="top" src="/img/books.jpeg"></Card.Img>
             <Card.Body>Books</Card.Body>
