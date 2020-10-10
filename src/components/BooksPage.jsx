@@ -10,6 +10,7 @@ import {
 import AddBookModal from "./modals/AddBookModal";
 import UpdateBookModal from "./modals/UpdateBookModal";
 import DeleteBookModal from "./modals/DeleteBookModal";
+import { Link } from "react-router-dom";
 
 export default function BooksPage(props) {
   const dispatch = useDispatch();
@@ -105,7 +106,9 @@ export default function BooksPage(props) {
                     books.length > 0 ? (
                       books.map((book) => (
                         <tr key={book._id}>
-                          <td>{book.title}</td>
+                          <td>
+                            <Link to={`/books/${book._id}`}>{book.title}</Link>
+                          </td>
                           <td>{book.author}</td>
                           <td>{book.pages}</td>
                           <td>

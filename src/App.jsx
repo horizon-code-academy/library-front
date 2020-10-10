@@ -9,6 +9,7 @@ import StudentsPage from "./components/StudentsPage";
 import SignupPage from "./components/SignupPage";
 import LoginPage from "./components/LoginPage";
 import Header from "./components/Header";
+import BookPage from "./components/BookPage";
 
 function App() {
   return (
@@ -17,14 +18,15 @@ function App() {
         <Header />
         <Container className="pt-5">
           <div>
-            {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
             <Switch>
               <Route path="/" exact>
                 <HomePage />
               </Route>
               <Route path="/students">
                 <StudentsPage />
+              </Route>
+              <Route path="/books/:id">
+                <BookPage />
               </Route>
               <Route path="/books">
                 <BooksPage />

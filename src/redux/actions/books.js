@@ -19,6 +19,26 @@ export function getAllBooks() {
       });
 }
 
+export function getOneBook(id, successCb, failCb) {
+  const success = () => ({
+    type: "GET_BOOK_SUCCESS",
+  });
+  const error = () => ({
+    type: "GET_BOOK_ERROR",
+  });
+  return (dispatch) =>
+    axios
+      .get("http://localhost:8081/books/" + id)
+      .then((res) => {
+        dispatch(success());
+        successCb(res.data);
+      })
+      .catch((e) => {
+        dispatch(error(e.message));
+        failCb();
+      });
+}
+
 export function addBook(book, successCb, failCb) {
   const success = () => ({
     type: "ADD_BOOK_SUCCESS",

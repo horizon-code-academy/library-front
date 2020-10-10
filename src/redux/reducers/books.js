@@ -4,7 +4,9 @@ export default function booksReducer(state = [], action) {
       return action.payload;
     case "GET_ALL_BOOKS_ERROR":
       return state;
-    case "GET_ONE_BOOK":
+    case "GET_BOOK_SUCCESS":
+      return state;
+    case "GET_BOOK_ERROR":
       return state;
     case "ADD_BOOK_SUCCESS":
       return state;
