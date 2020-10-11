@@ -4,7 +4,9 @@ export default function studentsReducer(state = [], action) {
       return action.payload;
     case "GET_ALL_STUDENTS_ERROR":
       return state;
-    case "GET_ONE_STUDENT":
+    case "GET_STUDENT_SUCCESS":
+      return state;
+    case "GET_STUDENT_ERROR":
       return state;
     case "ADD_STUDENT_SUCCESS":
       return state;

@@ -19,6 +19,25 @@ export function getAllStudents() {
       });
 }
 
+export function getOneStudent(id, successCb, failCb) {
+  const success = () => ({
+    type: "GET_STUDENT_SUCCESS",
+  });
+  const error = () => ({
+    type: "GET_STUDENT_ERROR",
+  });
+  return (dispatch) =>
+    axios
+      .get("http://localhost:8081/students/" + id)
+      .then((res) => {
+        dispatch(success());
+        successCb(res.data);
+      })
+      .catch((e) => {
+        dispatch(error(e.message));
+        failCb();
+      });
+}
 export function addStudent(student, successCb, failCb) {
   const success = () => ({
     type: "ADD_STUDENT_SUCCESS",

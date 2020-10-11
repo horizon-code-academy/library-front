@@ -10,6 +10,7 @@ import {
 import AddStudentModal from "./modals/AddStudentModal";
 import UpdateStudentModal from "./modals/UpdateStudentModal";
 import DeleteStudentModal from "./modals/DeleteStudentModal";
+import { Link } from "react-router-dom";
 
 export default function StudentsPage(props) {
   const dispatch = useDispatch();
@@ -112,7 +113,12 @@ export default function StudentsPage(props) {
                     students.length > 0 ? (
                       students.map((student) => (
                         <tr key={student._id}>
-                          <td>{student.name}</td>
+                          <td>
+                            <Link to={`/students/${student._id}`}>
+                              {student.name}
+                            </Link>
+                          </td>
+
                           <td>{student.age}</td>
                           <td>{student.phone}</td>
                           <td>{student.email}</td>

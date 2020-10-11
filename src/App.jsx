@@ -10,7 +10,7 @@ import SignupPage from "./components/SignupPage";
 import LoginPage from "./components/LoginPage";
 import Header from "./components/Header";
 import BookPage from "./components/BookPage";
-
+import StudentPage from "./components/StudentPage";
 function App() {
   return (
     <Provider store={store}>
@@ -21,6 +21,9 @@ function App() {
             <Switch>
               <Route path="/" exact>
                 <HomePage />
+              </Route>
+              <Route path="/students/:id">
+                <StudentPage />
               </Route>
               <Route path="/students">
                 <StudentsPage />
