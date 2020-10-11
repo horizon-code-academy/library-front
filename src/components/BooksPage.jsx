@@ -10,10 +10,13 @@ import {
 import AddBookModal from "./modals/AddBookModal";
 import UpdateBookModal from "./modals/UpdateBookModal";
 import DeleteBookModal from "./modals/DeleteBookModal";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function BooksPage(props) {
   const dispatch = useDispatch();
+  const router = useHistory();
+
+  const token = useSelector((state) => state.auth.token);
   const books = useSelector((state) => state.books);
 
   const [activeBook, setActiveBook] = React.useState(null);
@@ -27,6 +30,10 @@ export default function BooksPage(props) {
   const [title, setTitle] = React.useState("");
   const [author, setAuthor] = React.useState("");
   const [pages, setPages] = React.useState("");
+
+  React.useEffect(() => {
+    if (!token) router.push("/login");
+  });
 
   React.useEffect(() => {
     dispatch(getAllBooks());

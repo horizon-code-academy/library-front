@@ -1,8 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Row, Col, Card } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 export default function HomePage() {
+  const router = useHistory();
+
+  const token = useSelector((state) => state.auth.token);
+
+  React.useEffect(() => {
+    if (!token) router.push("/login");
+  });
+
   return (
     <Row>
       <Col md={12}>

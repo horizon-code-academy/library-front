@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { Row, Col, Card } from "react-bootstrap";
 import { getOneBook } from "../redux/actions/books";
@@ -7,10 +7,17 @@ import { getOneBook } from "../redux/actions/books";
 export default function BookPage() {
   const dispatch = useDispatch();
   const router = useHistory();
+
+  const token = useSelector((state) => state.auth.token);
+
   // get the id from the visited route using `useParams()`of `react-router-dom`
   const { id } = useParams();
   // state to contain the data of the book
   const [book, setBook] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!token) router.push("/login");
+  });
 
   React.useEffect(() => {
     dispatch(getOneBook(id, setBook, () => router.push("/books")));

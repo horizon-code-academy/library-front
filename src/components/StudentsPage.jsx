@@ -10,10 +10,13 @@ import {
 import AddStudentModal from "./modals/AddStudentModal";
 import UpdateStudentModal from "./modals/UpdateStudentModal";
 import DeleteStudentModal from "./modals/DeleteStudentModal";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function StudentsPage(props) {
   const dispatch = useDispatch();
+  const router = useHistory();
+
+  const token = useSelector((state) => state.auth.token);
   const students = useSelector((state) => state.students);
 
   const [activeStudent, setActiveStudent] = React.useState(null);
@@ -28,6 +31,10 @@ export default function StudentsPage(props) {
   const [phone, setPhone] = React.useState("");
   const [age, setAge] = React.useState("");
   const [email, setEmail] = React.useState("");
+
+  React.useEffect(() => {
+    if (!token) router.push("/login");
+  });
 
   React.useEffect(() => {
     dispatch(getAllStudents());

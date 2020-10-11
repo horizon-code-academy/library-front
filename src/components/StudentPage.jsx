@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { Row, Col, Card } from "react-bootstrap";
 import { getOneStudent } from "../redux/actions/students";
@@ -7,10 +7,17 @@ import { getOneStudent } from "../redux/actions/students";
 export default function StudentPage() {
   const dispatch = useDispatch();
   const router = useHistory();
+
+  const token = useSelector((state) => state.auth.token);
+
   // get the id from the visited route using `useParams()`of `react-router-dom`
   const { id } = useParams();
   // state to contain the data of the student
   const [student, setStudent] = React.useState(null);
+
+  React.useEffect(() => {
+    if (!token) router.push("/login");
+  });
 
   React.useEffect(() => {
     dispatch(getOneStudent(id, setStudent, () => router.push("/students")));
