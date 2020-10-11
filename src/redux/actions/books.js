@@ -10,7 +10,9 @@ export function getAllBooks() {
   });
   return (dispatch) =>
     axios
-      .get("http://localhost:8081/books")
+      .get("http://localhost:8081/books", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then((res) => {
         dispatch(success(res.data));
       })
@@ -28,7 +30,9 @@ export function getOneBook(id, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .get("http://localhost:8081/books/" + id)
+      .get("http://localhost:8081/books/" + id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then((res) => {
         dispatch(success());
         successCb(res.data);
@@ -48,7 +52,9 @@ export function addBook(book, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .post("http://localhost:8081/books", book)
+      .post("http://localhost:8081/books", book, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then(() => {
         dispatch(success());
         successCb();
@@ -68,7 +74,9 @@ export function updateBook(book, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .put("http://localhost:8081/books/" + book._id, book)
+      .put("http://localhost:8081/books/" + book._id, book, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then(() => {
         dispatch(success());
         successCb();
@@ -88,7 +96,9 @@ export function deleteBook(id, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .delete("http://localhost:8081/books/" + id)
+      .delete("http://localhost:8081/books/" + id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then(() => {
         dispatch(success());
         successCb();

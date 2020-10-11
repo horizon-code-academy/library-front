@@ -10,7 +10,9 @@ export function getAllStudents() {
   });
   return (dispatch) =>
     axios
-      .get("http://localhost:8081/students")
+      .get("http://localhost:8081/students", {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then((res) => {
         dispatch(success(res.data));
       })
@@ -28,14 +30,16 @@ export function getOneStudent(id, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .get("http://localhost:8081/students/" + id)
+      .get("http://localhost:8081/students/" + id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then((res) => {
         dispatch(success());
         successCb(res.data);
       })
       .catch((e) => {
         dispatch(error(e.message));
-        failCb();
+        failCb({ message: "unauthorized or bad request!" });
       });
 }
 export function addStudent(student, successCb, failCb) {
@@ -47,14 +51,16 @@ export function addStudent(student, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .post("http://localhost:8081/students", student)
+      .post("http://localhost:8081/students", student, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then(() => {
         dispatch(success());
         successCb();
       })
       .catch((e) => {
         dispatch(error(e.message));
-        failCb();
+        failCb({ message: "unauthorized or bad request!" });
       });
 }
 
@@ -67,14 +73,16 @@ export function updateStudent(student, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .put("http://localhost:8081/students/" + student._id, student)
+      .put("http://localhost:8081/students/" + student._id, student, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then(() => {
         dispatch(success());
         successCb();
       })
       .catch((e) => {
         dispatch(error());
-        failCb();
+        failCb({ message: "unauthorized or bad request!" });
       });
 }
 
@@ -87,13 +95,15 @@ export function deleteStudent(id, successCb, failCb) {
   });
   return (dispatch) =>
     axios
-      .delete("http://localhost:8081/students/" + id)
+      .delete("http://localhost:8081/students/" + id, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
       .then(() => {
         dispatch(success());
         successCb();
       })
       .catch((e) => {
         dispatch(error());
-        failCb();
+        failCb({ message: "unauthorized or bad request!" });
       });
 }
