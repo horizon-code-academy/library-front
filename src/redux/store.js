@@ -5,11 +5,13 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import books from "./reducers/books";
 import students from "./reducers/students";
 import users from "./reducers/users";
+import auth from "./reducers/auth";
 
 const rootReducer = combineReducers({
   books,
   students,
   users,
+  auth,
 });
 
 const middlewares = [thunkMiddleware];

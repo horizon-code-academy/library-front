@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Form, Button, Alert } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { login } from "../redux/actions/users";
+import { login } from "../redux/actions/auth";
 
 const LoginPage = () => {
   const router = useHistory();
