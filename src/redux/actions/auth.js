@@ -5,7 +5,7 @@ export function login(user, successCb, failCb) {
     type: "LOGIN_SUCCESS",
     payload: data,
   });
-  const error = (data) => ({
+  const error = () => ({
     type: "LOGIN_ERROR",
   });
   return (dispatch) =>
@@ -23,7 +23,6 @@ export function login(user, successCb, failCb) {
 }
 
 export function logout() {
-  console.log("HI");
   const success = () => ({
     type: "LOGOUT_SUCCESS",
   });

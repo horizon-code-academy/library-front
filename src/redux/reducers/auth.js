@@ -4,9 +4,9 @@ export default function authReducer(
 ) {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      return action.payload;
+      return { ...state, token: action.payload };
     case "LOGIN_ERROR":
-      return state;
+      return { ...state, token: undefined };
     case "LOGOUT_SUCCESS":
       return { ...state, token: undefined };
     case "LOGOUT_ERROR":
